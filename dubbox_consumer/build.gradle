@@ -1,0 +1,5 @@
+dependencies {
+//设置依赖工程
+    compile project(':dubbox_common')
+    compile project(':dubbox_service')
+}

@@ -1,0 +1,6 @@
+rootProject.name = 'dubbox_demo'
+include 'dubbox_provider'
+include 'dubbox_common'
+include 'dubbox_service'
+include 'dubbox_consumer'
+
