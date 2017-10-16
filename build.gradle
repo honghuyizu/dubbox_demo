@@ -108,7 +108,75 @@ subprojects {
 
     }
 
-
+//设置jar包的版本号
+    version = '0.1.0'
+    //指定编译Java源文件时使用的jdk版本
+    sourceCompatibility = 1.8
+    //指定生成二进制文件时使用的jdk版本
+    targetCompatibility = 1.8
+    //------------------------------------------------------------------------------------
+    //任务：创建java工程
+    task createJavaProject {
+        doLast {
+            if (!file("libs").exists()) {
+                file("libs").mkdirs()
+            }
+            sourceSets*.java.srcDirs*.each {
+                if (!it.exists()) {
+                    it.mkdirs()
+                }
+            }
+            sourceSets*.resources.srcDirs*.each {
+                if (!it.exists()) {
+                    it.mkdirs()
+                }
+            }
+        }
+    }
+    //任务：创建web工程
+    task createWebProject(dependsOn: 'createJavaProject') {
+        doLast {
+            if (!file("$webAppDirName/WEB-INF/lib").exists()) {
+                file("$webAppDirName/WEB-INF/lib").mkdirs()
+            }
+            if (!file("$webAppDirName/WEB-INF/classes").exists()) {
+                file("$webAppDirName/WEB-INF/classes").mkdirs()
+            }
+            if (!file("$webAppDirName/static/images").exists()) {
+                file("$webAppDirName/static/images").mkdirs()
+            }
+            if (!file("$webAppDirName/static/css").exists()) {
+                file("$webAppDirName/static/css").mkdirs()
+            }
+            if (!file("$webAppDirName/static/js").exists()) {
+                file("$webAppDirName/static/js").mkdirs()
+            }
+            if (!file("$webAppDirName/static/third_party").exists()) {
+                file("$webAppDirName/static/third_party").mkdirs()
+            }
+        }
+    }
+    //配置类路径到Class-Path，以便jvm能找到相应的class文件
+    jar {
+        doFirst {
+            manifest {
+                attributes("Class-Path": configurations.compile.collect { it.getName() }.join(' '))
+            }
+        }
+        //配置文件不打包
+        exclude('*.xml')
+        exclude('*.properties')
+    }
+    //设置编译参数
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+        }
+    }
     //解决中文乱码问题
     [compileJava, javadoc, compileTestJava]*.options*.encoding = 'UTF-8'
+    //任务：指定gradle的版本
+    task wrapper(type: Wrapper) {
+        gradleVersion = '3.3'
+    }
 }

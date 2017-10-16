@@ -18,8 +18,8 @@ public class TestServiceImpl implements TestService {
     @Override
     @GET
     @Path("say")
-    public List sayHello() {
-        List list = new ArrayList<>();
+    public List<Object> sayHello() {
+        List<Object> list = new ArrayList<Object>();
         list.add("I am a test service");
         return list;
     }

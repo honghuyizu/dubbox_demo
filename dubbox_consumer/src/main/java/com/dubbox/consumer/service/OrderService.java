@@ -1,11 +1,8 @@
 package com.dubbox.consumer.service;
 
 import com.alibaba.dubbo.rpc.protocol.rest.support.ContentType;
-import com.dubbox.common.utils.Result;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
